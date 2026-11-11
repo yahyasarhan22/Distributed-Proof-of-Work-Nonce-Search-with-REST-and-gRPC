@@ -1,0 +1,42 @@
+syntax = "proto3";
+package pow;
+option go_package = "pow-distributed/proto;pb";
+
+service Coordinator {
+  rpc RegisterWorker(RegisterRequest) returns (RegisterResponse);
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+}
+service Worker {
+  rpc Search(SearchRequest) returns (stream SearchUpdate);
+}
+message RegisterRequest {
+  string worker_id = 1;
+  string address = 2;
+  string instance_id = 3;
+}
+message RegisterResponse { string session_id = 1; }
+message HeartbeatRequest {
+  string worker_id = 1;
+  string session_id = 2;
+}
+message HeartbeatResponse {}
+message SearchRequest {
+  string job_id = 1;
+  string data = 2;
+  uint32 difficulty = 3;
+  uint64 start = 4;
+  uint64 end = 5;
+  string assignment_id = 6;
+}
+enum UpdateKind {
+  PROGRESS = 0;
+  FOUND = 1;
+  EXHAUSTED = 2;
+}
+message SearchUpdate {
+  string assignment_id = 1;
+  uint64 checked = 2;
+  UpdateKind kind = 3;
+  uint64 nonce = 4;
+  string hash = 5;
+}

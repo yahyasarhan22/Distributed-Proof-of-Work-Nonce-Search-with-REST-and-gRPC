@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package logs;
+
+option go_package = "logviewer/proto";
+
+service LogService {
+  rpc GetServerInfo(InfoRequest) returns (InfoResponse);
+  rpc WatchLogs(LogRequest) returns (stream LogMessage);
+}
+
+message InfoRequest {}
+
+message InfoResponse {
+  string name = 1;
+  string status = 2;
+}
+
+message LogRequest {
+  string service_name = 1;
+}
+
+message LogMessage {
+  string level = 1;
+  string message = 2;
+}

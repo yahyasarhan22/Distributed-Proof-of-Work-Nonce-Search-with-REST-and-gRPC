@@ -1,0 +1,19 @@
+# Downloaded SDKs, compilers, dependencies, and build caches (all parts).
+.tools/
+bin/
+.run/
+node_modules/
+*.exe
+*.test
+*.test.exe
+*.out
+*.log
+
+# Editor and operating-system files.
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local request scratch file; the README includes a reproducible example.
+/Part 3/invalid.json

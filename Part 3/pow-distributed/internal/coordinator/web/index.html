@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Nonce — Distributed proof of work</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script src="/assets/app.js" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to workspace</a>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Nonce home"><svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><path d="M5 5h8v8H5zm14 0h8v8h-8zM5 19h8v8H5zm14 0h8v8h-8z" fill="currentColor"/></svg><span>Nonce</span><span class="brand-note">Distributed proof of work</span></a>
+    <p id="api-status" class="connection" role="status">Connecting to coordinator…</p>
+  </header>
+  <main id="main">
+    <div class="intro"><div><h1>Put your workers to work.</h1><p>Search together. Find a nonce. Verify the proof.</p></div><span class="course">ENCS5324 · Assignment 1</span></div>
+    <noscript><p class="notice">Enable JavaScript to submit and monitor jobs here. The REST API also works with PowerShell or curl.</p></noscript>
+    <div id="error" class="notice error" role="alert" hidden></div>
+    <div class="workspace">
+      <section class="submission" aria-labelledby="new-job-title">
+        <div class="section-heading"><h2 id="new-job-title">New search</h2><span class="subtle">SHA-256</span></div>
+        <form id="job-form">
+          <label for="data">Input data</label>
+          <textarea id="data" name="data" rows="3" required placeholder="What would you like to hash?">hello</textarea>
+          <label for="difficulty">Difficulty</label>
+          <div class="difficulty-row"><input id="difficulty" name="difficulty" type="number" min="1" max="8" step="1" value="4" required aria-describedby="difficulty-help"><span>leading hexadecimal zeros</span></div>
+          <p id="difficulty-help" class="help">Choose 1–8. Each extra zero makes a match about 16 times less likely.</p>
+          <button id="submit" class="primary" type="submit">Start search <span aria-hidden="true">→</span></button>
+          <p class="form-note">New jobs run alongside existing searches.</p>
+        </form>
+      </section>
+      <section class="live" aria-labelledby="live-title">
+        <div class="section-heading"><h2 id="live-title">Live search</h2><span id="job-status" class="badge idle">No job selected</span></div>
+        <div id="job-empty" class="empty-live"><svg viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="8" y="8" width="18" height="18" rx="3"/><rect x="38" y="8" width="18" height="18" rx="3"/><rect x="23" y="38" width="18" height="18" rx="3"/><path d="M17 26v7h30v-7M32 33v5"/></svg><h3>Ready when you are.</h3><p>Start a search or open a job from history.<br>Progress will arrive here as workers report it.</p></div>
+        <div id="job-detail" hidden>
+          <p class="field-label">Job ID</p><p id="job-id" class="mono identifier"></p>
+          <dl class="metrics"><div><dt>Nonces checked</dt><dd id="checked">0</dd></div><div><dt>Elapsed time</dt><dd id="elapsed">0.00 s</dd></div><div><dt>Difficulty</dt><dd id="job-difficulty">—</dd></div></dl>
+          <div class="input-preview"><span class="field-label">Input data</span><p id="job-data"></p></div>
+          <p id="job-message" class="job-message" role="status"></p>
+          <div id="solution" class="solution" hidden><h3>Proof found</h3><p class="field-label">Nonce</p><p id="nonce" class="mono nonce"></p><p class="field-label">SHA-256 hash</p><code id="hash"></code></div>
+          <div class="live-footer"><p id="stream-status" class="subtle">Connecting to live updates…</p><button id="cancel" class="danger" type="button">Cancel search</button></div>
+        </div>
+      </section>
+    </div>
+    <section class="workers-section" aria-labelledby="workers-title">
+      <div class="section-heading"><div class="heading-inline"><h2 id="workers-title">Worker network</h2><span id="worker-count" class="subtle">Loading…</span></div><span class="subtle">Updates every 2 seconds</span></div>
+      <p id="workers-empty" class="empty-line" hidden>No workers registered yet. Start a worker process to begin searching.</p>
+      <div id="workers" class="worker-grid"></div>
+    </section>
+    <section class="history-section" aria-labelledby="history-title">
+      <div class="section-heading"><h2 id="history-title">Job history</h2><span id="job-count" class="subtle">Loading…</span></div>
+      <p id="history-empty" class="empty-line" hidden>Your searches will appear here. Jobs are kept until the coordinator restarts.</p>
+      <div id="history-wrap" class="table-wrap" tabindex="0" role="region" aria-label="Job history, scroll horizontally on small screens"><table><thead><tr><th scope="col">Job / input</th><th scope="col">Status</th><th scope="col">Difficulty</th><th scope="col">Checked</th><th scope="col">Elapsed</th><th scope="col"><span class="sr-only">Action</span></th></tr></thead><tbody id="history"></tbody></table></div>
+    </section>
+    <footer><span>SHA-256(data + decimal nonce)</span><span>Progress counts reported attempts, including retries.</span></footer>
+  </main>
+</body>
+</html>
